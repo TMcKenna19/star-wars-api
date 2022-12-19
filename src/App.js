@@ -1,23 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
+import {Routes, Route} from 'react-router-dom';
+import People from './components/People';
+import Planets from './components/Planets';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>Star Wars API</h2>
+      <Routes>
+        <Route path="/people/" element={<People/>} />
+        <Route path="/planets/" element={<Planets/>} />
+      </Routes>
+      
     </div>
   );
 }
