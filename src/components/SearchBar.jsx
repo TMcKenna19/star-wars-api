@@ -5,9 +5,31 @@ import { useNavigate } from "react-router-dom";
 
 
 const SearchBar = (props) => {
-    const [categories, setCategories] = useState([]) // store categories in state [people, planets, ...]
     const navigate = useNavigate();
+    const [categories, setCategories] = useState([]) // store categories in state [people, planets, ...]
+    const [formData, setFormData] = useState({ //data stored in state from form name="id" name="categories"
+        category:"",
+        id:""
+    })
 
+    const changeHandler = (e)=>{
+        console.log("Change")
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+        
+    }
+
+    const submitHandler = (e)=>{
+        e.preventDefault();
+        console.log("form data -> ", formData);
+        axios.get(`https://swapi.dev/api/${formData.category}/${formData.id}`).then(response=>{
+            console.log("api response ->", response)
+            navigate("/results")
+        })
+        .catch(err => console.log(err))
+    }
     
     useEffect(()=>{
         axios.get("https://swapi.dev/api/").then(response => {
@@ -26,14 +48,14 @@ const SearchBar = (props) => {
 
     return(
         <div>
-            <form>
+            <form onSubmit={submitHandler}>
                 <div className="form-group">
                     <label htmlFor="">Search For: </label>
-                    <select className="form-control-sm" name="category" id="">
+                    <select onChange={changeHandler} className="form-control-sm" name="category" id="">
                          {
                              categories.map((category, i)=>{
                                 return(                                   
-                                    <option value="">{category}</option>                                   
+                                    <option key={i} value={category}>{category}</option>                                   
                                 )
                              })
                          }
@@ -41,7 +63,7 @@ const SearchBar = (props) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="id">ID:</label>
-                    <input className="form-control-sm" type="number" name="id"></input>
+                    <input onChange={changeHandler} className="form-control-sm" type="number" name="id"></input>
                 </div>
                 <input className="btn btn-dark mt-5 mb-5" type="submit" value="search"/>
             </form>
