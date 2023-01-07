@@ -7,11 +7,10 @@ import Results from './components/Results';
 function App() {
   return (
     <div className="App container">
-      <h2>Star Wars API</h2>
-      
+      <SearchBar/>
       <Routes>
-        <Route path="/results" element={<Results/>} />
-        <Route path="/" element={<SearchBar/>} />
+        <Route path="results/:category/:id" element={<Results/>} />
+        {/* <Route path="/" element={<SearchBar/>} /> */}
       </Routes>
       
     </div>

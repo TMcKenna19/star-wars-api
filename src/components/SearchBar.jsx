@@ -8,12 +8,11 @@ const SearchBar = (props) => {
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]) // store categories in state [people, planets, ...]
     const [formData, setFormData] = useState({ //data stored in state from form name="id" name="categories"
-        category:"",
+        category:"people",
         id:""
     })
 
     const changeHandler = (e)=>{
-        console.log("Change")
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -23,12 +22,8 @@ const SearchBar = (props) => {
 
     const submitHandler = (e)=>{
         e.preventDefault();
-        console.log("form data -> ", formData);
-        axios.get(`https://swapi.dev/api/${formData.category}/${formData.id}`).then(response=>{
-            console.log("api response ->", response)
-            navigate("/results")
-        })
-        .catch(err => console.log(err))
+        console.log("submit")
+        navigate(`/results/${formData.category}/${formData.id}`)
     }
     
     useEffect(()=>{
@@ -42,12 +37,12 @@ const SearchBar = (props) => {
                 console.log(err)
             });
             
-
         },[])
     
 
     return(
         <div>
+            <h2>Star Wars API</h2> 
             <form onSubmit={submitHandler}>
                 <div className="form-group">
                     <label htmlFor="">Search For: </label>
